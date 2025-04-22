@@ -1,14 +1,18 @@
 window.parent.postMessage({
   type: 'registerTrigger',
   trigger: 'open_backpack',
-  name: 'Open Backpack (Direct)'
+  name: 'Open Backpack (modded)'
 }, "*");
 
 window.addEventListener("message", (event) => {
   const evt = event.data;
   for (const key in evt.data) {
-    if (key == "trigger_open_backpack_direct") {
-      // Try forcing the backpack directly without opening the menu first
+    if (key == "trigger_open_backpack") {
+
+      // ✅ Skip openMainMenu
+      // window.parent.postMessage({ type: 'openMainMenu' }, '*'); <-- removed
+
+      // ✅ Directly force the menu choice (might still fail if the UI requires state)
       window.parent.postMessage({
         type: "forceMenuChoice",
         choice: "Open Backpack",
@@ -17,3 +21,4 @@ window.addEventListener("message", (event) => {
     }
   }
 });
+
