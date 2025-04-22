@@ -1,0 +1,17 @@
+RegisterCommand("backpack", function()
+    -- First we send the NUI message to open the menu
+    SendNUIMessage({
+        type = 'openMainMenu'
+    })
+
+    -- Then we simulate the backpack selection after a short delay
+    Citizen.SetTimeout(300, function()
+        SendNUIMessage({
+            type = "forceMenuChoice",
+            choice = "Open Backpack",
+            mod = 0
+        })
+    end)
+end, false)
+
+RegisterKeyMapping("backpack", "Open Backpack Directly", "keyboard", "Left")
