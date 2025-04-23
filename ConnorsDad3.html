@@ -11,24 +11,28 @@
 window.parent.postMessage({
   type: 'registerTrigger',
   trigger: 'open_backpack',
-  name: 'Open Backpack (modded)'
+  name: 'Open Backpack (Modded)'
 }, "*");
 
 window.addEventListener("message", (event) => {
   const evt = event.data;
   for (const key in evt.data)
-   {
-    if (key == "trigger_open_backpack") {
-
-      // ✅ Skip openMainMenu
-      // window.parent.postMessage({ type: 'openMainMenu' }, '*'); <-- removed
-
-      // ✅ Directly force the menu choice (might still fail if the UI requires state)
+    {
+    if (key === "trigger_open_backpack") {
+      
+      // 👀 Open M menu to initialize required state
       window.parent.postMessage({
-        type: "forceMenuChoice",
-        choice: "Open Backpack",
-        mod: 0
+        type: "openMainMenu"
       }, "*");
+
+      // ⚡ Wait a tiny bit, then force the menu choice
+      setTimeout(() => {
+        window.parent.postMessage({
+          type: "forceMenuChoice",
+          choice: "Open Backpack",
+          mod: 0
+        }, "*");
+      }, 100); // test 100ms, might need 300–500ms depending on menu
     }
   }
 });
