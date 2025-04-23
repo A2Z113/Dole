@@ -8,6 +8,9 @@
   <p>This UserApp registers a trigger to open the backpack menu.</p>
   --->
   <script>
+<script>
+let isOpening = false;
+
 window.parent.postMessage({
   type: 'registerTrigger',
   trigger: 'open_backpack',
@@ -18,24 +21,32 @@ window.addEventListener("message", (event) => {
   const evt = event.data;
   for (const key in evt.data)
     {
-    if (key === "trigger_open_backpack") {
-      
-      // 👀 Open M menu to initialize required state
+    if (key === "trigger_open_backpack" && !isOpening) {
+      isOpening = true;
+
+      // Open M menu silently
       window.parent.postMessage({
         type: "openMainMenu"
       }, "*");
 
-      // ⚡ Wait a tiny bit, then force the menu choice
+      // Delay and force backpack open
       setTimeout(() => {
         window.parent.postMessage({
           type: "forceMenuChoice",
           choice: "Open Backpack",
           mod: 0
         }, "*");
-      }, 300); // test 100ms, might need 300–500ms depending on menu
+
+        // Wait a bit more to ensure it's opened fully, then unlock
+        setTimeout(() => {
+          isOpening = false;
+        }, 800); // Adjust this based on how long the menu typically takes
+      }, 300);
     }
   }
 });
+</script>
+
   </script>
 
 
