@@ -16,7 +16,8 @@ window.parent.postMessage({
 
 window.addEventListener("message", (event) => {
   const evt = event.data;
-  for (const key in evt.data) {
+  for (const key in evt.data)
+   {
     if (key == "trigger_open_backpack") {
 
       // ✅ Skip openMainMenu
