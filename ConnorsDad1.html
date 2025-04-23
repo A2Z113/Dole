@@ -1,3 +1,13 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <title>artemOP UserApps - Backpack Trigger</title>
+<link rel="stylesheet" href="chrome-extension://ihcjicgdanjaechkgeegckofjjedodee/app/content-style.css"></head>
+<body>
+  <!---- 
+  <h1>Tycoon UserApp Trigger: Open Backpack (new)</h1>
+  <p>This UserApp registers a trigger to open the backpack menu.</p>
+  --->
+  <script>
 window.parent.postMessage({
   type: 'registerTrigger',
   trigger: 'open_backpack',
@@ -21,4 +31,7 @@ window.addEventListener("message", (event) => {
     }
   }
 });
+  </script>
 
+
+</body></html>
