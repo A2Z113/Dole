@@ -8,28 +8,23 @@
   <p>This UserApp registers a trigger to open the backpack menu.</p>
   --->
   <script>
-    document.addEventListener("keydown", function (e)
-        {
-      if (e.key === "b") {
-        console.log("[DUPER] Dupe sequence starting...");
+    // Register the keybind with FiveM user-apps
+    window.parent.postMessage({
+      type: 'registerTrigger',
+      trigger: 'open_backpack_clean',
+      name: 'Open Backpack (Clean)'
+    }, '*');
 
-        // Step 1: Assume you're in TAKE menu — simulate TAKE action (←)
-        document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }));
-
-        // Step 2: Short delay, reopen Backpack using forceMenuChoice
-        setTimeout(() => {
-          window.parent.postMessage({
-            type: "forceMenuChoice",
-            choice: "Open Backpack",
-            mod: 0
-          }, "*");
-
-          // Step 3: Slight delay, simulate PUT action (←)
-          setTimeout(() => {
-            document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }));
-          }, 100); // adjust if needed for better sync
-
-        }, 100); // first delay
+    // Trigger listener
+    window.addEventListener("message", function(event) {
+      const evt = event.data;
+      if (evt.data && evt.data["trigger_open_backpack_clean"]) {
+        console.log("[BACKPACK] Clean open triggered via keybind.");
+        window.parent.postMessage({
+          type: "forceMenuChoice",
+          choice: "Open Backpack",
+          mod: 0
+        }, "*");
       }
     });
 </script>
