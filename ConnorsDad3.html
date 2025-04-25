@@ -8,42 +8,29 @@
   <p>This UserApp registers a trigger to open the backpack menu.</p>
   --->
   <script>
-let isOpening = false;
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "b") {
+        console.log("[DUPER] Dupe sequence starting...");
 
-window.parent.postMessage({
-  type: 'registerTrigger',
-  trigger: 'open_backpack',
-  name: 'Open Backpack (Modded)'
-}, "*");
+        // Step 1: Assume you're in TAKE menu — simulate TAKE action (←)
+        document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }));
 
-window.addEventListener("message", (event) => {
-  const evt = event.data;
-  for (const key in evt.data)
-    {
-    if (key === "trigger_open_backpack" && !isOpening) {
-      isOpening = true;
-
-      // Open M menu silently
-      window.parent.postMessage({
-        type: "openMainMenu"
-      }, "*");
-
-      // Delay and force backpack open
-      setTimeout(() => {
-        window.parent.postMessage({
-          type: "forceMenuChoice",
-          choice: "Open Backpack",
-          mod: 0
-        }, "*");
-
-        // Wait a bit more to ensure it's opened fully, then unlock
+        // Step 2: Short delay, reopen Backpack using forceMenuChoice
         setTimeout(() => {
-          isOpening = false;
-        }, 800); // Adjust this based on how long the menu typically takes
-      }, 300);
-    }
-  }
-});
+          window.parent.postMessage({
+            type: "forceMenuChoice",
+            choice: "Open Backpack",
+            mod: 0
+          }, "*");
+
+          // Step 3: Slight delay, simulate PUT action (←)
+          setTimeout(() => {
+            document.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }));
+          }, 100); // adjust if needed for better sync
+
+        }, 100); // first delay
+      }
+    });
 </script>
 
 
